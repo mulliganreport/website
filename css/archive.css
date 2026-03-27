@@ -5,6 +5,8 @@
 /* --- Archive Hero --- */
 .archive-hero {
   background: var(--augusta-deep);
+  max-width: var(--page-max);
+  margin: 0 auto;
   padding: var(--space-2xl) var(--page-padding);
   text-align: center;
   position: relative;
@@ -19,7 +21,7 @@
 }
 
 .archive-hero__inner {
-  max-width: var(--page-wide);
+  max-width: var(--page-max);
   margin: 0 auto;
 }
 

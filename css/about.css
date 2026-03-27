@@ -5,6 +5,8 @@
 /* --- Hero --- */
 .about-hero {
   background: var(--augusta-deep);
+  max-width: var(--page-max);
+  margin: 0 auto;
   padding: var(--space-3xl) var(--page-padding) var(--space-2xl);
   text-align: center;
   position: relative;
