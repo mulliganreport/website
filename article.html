@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting... - The Mulligan Report</title>
+  <script>
+    // Legacy URL redirect: article.html?slug=X -> /article/X/
+    var params = new URLSearchParams(window.location.search);
+    var slug = params.get('slug');
+    if (slug) {
+      window.location.replace('/article/' + slug + '/');
+    } else {
+      window.location.replace('/archive.html');
+    }
+  </script>
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>

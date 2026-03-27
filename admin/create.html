@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create - TMR</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <!-- Quill Rich Text Editor -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ====== TOP BAR ====== -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <a href="dashboard.html" class="topbar__logo">TMR</a>
+      <nav class="topbar__nav">
+        <a href="research.html" class="topbar__tab" data-tab="research">Research</a>
+        <a href="create.html" class="topbar__tab topbar__tab--active" data-tab="create">Create</a>
+        <a href="dashboard.html" class="topbar__tab" data-tab="archive">Archive</a>
+      </nav>
+    </div>
+    <div class="topbar__right">
+      <!-- Auto-save indicator -->
+      <span class="autosave-status" id="autosave-status"></span>
+      <a href="../index.html" class="topbar__icon-btn" target="_blank" title="View Site">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+      <button class="topbar__icon-btn" onclick="TMRAuth.logout()" title="Sign Out">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ====== CREATE LAYOUT: Research Panel | Editor | Controls ====== -->
+  <div class="create-layout" id="create-layout" style="position: relative;">
+
+    <!-- Re-open tabs (visible only when sidebar is collapsed) -->
+    <button class="create-reopen create-reopen--left" id="reopen-left" title="Open Research panel">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
+    <button class="create-reopen create-reopen--right" id="reopen-right" title="Open Controls panel">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+
+    <!-- LEFT: Research Sources Panel -->
+    <aside class="create-research" id="research-panel">
+      <div class="create-research__header">
+        <h3 class="create-research__title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          Research
+        </h3>
+        <button class="create-research__toggle" id="toggle-left" title="Collapse panel">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="create-research__body" id="research-list">
+
+        <div class="research-item" data-id="r1" data-url="https://www.golfdigest.com">
+          <div class="research-item__header">
+            <span class="research-item__source">Golf Digest</span>
+            <div class="research-item__actions">
+              <a href="https://www.golfdigest.com" target="_blank" class="research-item__link" title="Open source">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+              </a>
+              <button class="research-item__insert" title="Insert into post" onclick="insertResearch('r1')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <h4 class="research-item__title">Tiger Woods confirms Masters participation, says back feels "better than it has in years"</h4>
+          <p class="research-item__snippet">Woods completed a full practice round at Augusta National on Tuesday, walking all 18 holes without a cart for the first time since 2022...</p>
+          <div class="research-item__meta">
+            <span>2h ago</span>
+            <span class="research-item__tag">breaking</span>
+          </div>
+        </div>
+
+        <div class="research-item" data-id="r2" data-url="https://www.espn.com">
+          <div class="research-item__header">
+            <span class="research-item__source">ESPN</span>
+            <div class="research-item__actions">
+              <a href="https://www.espn.com" target="_blank" class="research-item__link" title="Open source">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+              </a>
+              <button class="research-item__insert" title="Insert into post" onclick="insertResearch('r2')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <h4 class="research-item__title">Scheffler's putting stats reveal historic efficiency on greens over $1M per tournament</h4>
+          <p class="research-item__snippet">An analysis of Scottie Scheffler's 2026 season shows strokes gained putting numbers that rival peak Tiger...</p>
+          <div class="research-item__meta">
+            <span>4h ago</span>
+            <span class="research-item__tag">trending</span>
+          </div>
+        </div>
+
+        <div class="research-item" data-id="r3" data-url="https://www.golfchannel.com">
+          <div class="research-item__header">
+            <span class="research-item__source">Golf Channel</span>
+            <div class="research-item__actions">
+              <a href="https://www.golfchannel.com" target="_blank" class="research-item__link" title="Open source">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+              </a>
+              <button class="research-item__insert" title="Insert into post" onclick="insertResearch('r3')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <h4 class="research-item__title">USGA announces three major rule changes effective immediately, weekend golfers react</h4>
+          <p class="research-item__snippet">The new distance-measuring device rules, pace-of-play penalties, and bunker relief changes are sparking heated debate across social media...</p>
+          <div class="research-item__meta">
+            <span>6h ago</span>
+            <span class="research-item__tag">hot</span>
+          </div>
+        </div>
+
+        <div class="research-item" data-id="r4" data-url="https://www.theathletic.com">
+          <div class="research-item__header">
+            <span class="research-item__source">The Athletic</span>
+            <div class="research-item__actions">
+              <a href="https://www.theathletic.com" target="_blank" class="research-item__link" title="Open source">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+              </a>
+              <button class="research-item__insert" title="Insert into post" onclick="insertResearch('r4')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <h4 class="research-item__title">Rahm's LIV exit clause: What the contract language actually says and what it means for the PGA Tour</h4>
+          <p class="research-item__snippet">Sources with knowledge of Jon Rahm's deal say the exit window opens after 2026 season, with conditions tied to PGA Tour negotiation outcomes...</p>
+          <div class="research-item__meta">
+            <span>8h ago</span>
+            <span class="research-item__tag">exclusive</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="create-research__footer">
+        <a href="research.html" class="create-research__link">Open Research Hub</a>
+      </div>
+    </aside>
+
+    <!-- CENTER: Writing Area -->
+    <main class="create-editor">
+      <input type="text" class="create-editor__title" id="post-title" placeholder="What's the story?" autocomplete="off">
+
+      <div class="create-editor__field">
+        <label class="create-editor__label">Excerpt</label>
+        <textarea class="create-editor__textarea create-editor__textarea--short" id="post-excerpt" placeholder="One-liner that hooks the reader..."></textarea>
+      </div>
+
+      <div class="create-editor__field" style="margin-top: 16px;">
+        <div class="create-editor__quill">
+          <div id="quill-toolbar">
+            <span class="ql-formats">
+              <select class="ql-header">
+                <option value="">Body</option>
+                <option value="2">Heading</option>
+                <option value="3">Subhead</option>
+              </select>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-bold"></button>
+              <button class="ql-italic"></button>
+              <button class="ql-underline"></button>
+              <button class="ql-strike"></button>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-link"></button>
+              <button class="ql-blockquote"></button>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-list" value="ordered"></button>
+              <button class="ql-list" value="bullet"></button>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-image"></button>
+              <button class="ql-clean"></button>
+            </span>
+            <span class="ql-formats ql-variable-picker">
+              <button class="ql-variable-btn" id="variable-btn" type="button" title="Insert variable">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="4 7 4 4 20 4 20 7"/>
+                  <line x1="9" y1="20" x2="15" y2="20"/>
+                  <line x1="12" y1="4" x2="12" y2="20"/>
+                </svg>
+              </button>
+              <div class="ql-variable-menu" id="variable-menu">
+                <button class="ql-variable-menu__item" data-var="{{first_name}}">First Name <code>{{first_name}}</code></button>
+                <button class="ql-variable-menu__item" data-var="{{last_name}}">Last Name <code>{{last_name}}</code></button>
+                <button class="ql-variable-menu__item" data-var="{{email}}">Email <code>{{email}}</code></button>
+                <button class="ql-variable-menu__item" data-var="{{subscriber_id}}">Subscriber ID <code>{{subscriber_id}}</code></button>
+                <button class="ql-variable-menu__item" data-var="{{unsubscribe_url}}">Unsubscribe URL <code>{{unsubscribe_url}}</code></button>
+                <button class="ql-variable-menu__item" data-var="{{current_date}}">Current Date <code>{{current_date}}</code></button>
+              </div>
+            </span>
+          </div>
+          <div id="post-body"></div>
+        </div>
+      </div>
+
+      <div class="create-editor__field">
+        <label class="create-editor__label">Source</label>
+        <div class="create-editor__row">
+          <input type="text" class="create-editor__input" id="post-source" placeholder="e.g. Golf Digest">
+          <input type="url" class="create-editor__input" id="post-source-url" placeholder="Source URL (optional)">
+        </div>
+      </div>
+
+      <div class="create-editor__field">
+        <label class="create-editor__label">Tags</label>
+        <div class="tags-input" id="tags-input">
+          <div class="tags-input__tags" id="tags-display"></div>
+          <input type="text" class="tags-input__field" id="tags-field" placeholder="Type a tag..." autocomplete="off">
+          <div class="tags-input__dropdown" id="tags-dropdown"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- RIGHT: Publish Controls -->
+    <aside class="create-controls" id="controls-panel">
+      <div class="create-controls__header">
+        <button class="create-controls__toggle" id="toggle-right" title="Collapse controls">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Publish card -->
+      <div class="editor-card">
+        <h4 class="editor-card__title">Publish</h4>
+        <div class="editor-card__field">
+          <label class="editor-card__label">Status</label>
+          <select class="editor-card__select" id="post-status">
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+            <option value="scheduled">Scheduled</option>
+          </select>
+        </div>
+        <div class="editor-card__field" id="schedule-field" style="display:none;">
+          <label class="editor-card__label">Schedule Date</label>
+          <input type="datetime-local" class="editor-card__input" id="post-scheduled">
+        </div>
+        <div class="editor-card__field">
+          <label class="editor-card__label">Post Type</label>
+          <select class="editor-card__select" id="post-type">
+            <option value="post">Post Only</option>
+            <option value="email">Email Only</option>
+            <option value="post+email" selected>Post + Email</option>
+          </select>
+        </div>
+        <div class="editor-card__field" id="segment-field">
+          <label class="editor-card__label">Email Segment</label>
+          <select class="editor-card__select" id="post-segment">
+            <option value="all">All Subscribers</option>
+            <option value="engaged">Engaged (opened last 30d)</option>
+            <option value="vip">VIP List</option>
+            <option value="new">New Subscribers (last 7d)</option>
+          </select>
+        </div>
+        <div class="editor-card__actions">
+          <button class="editor-card__btn editor-card__btn--save" id="btn-save" onclick="savePost()">Save Draft</button>
+          <button class="editor-card__btn editor-card__btn--publish" id="btn-publish" onclick="publishPost()">Publish</button>
+        </div>
+        <div class="editor-card__actions" id="test-email-row">
+          <button class="editor-card__btn editor-card__btn--test" id="btn-test" onclick="sendTestEmail()">Send Test Email</button>
+        </div>
+        <p class="editor-card__meta" id="post-meta"></p>
+      </div>
+
+      <!-- Organization card -->
+      <div class="editor-card">
+        <h4 class="editor-card__title">Organization</h4>
+        <div class="editor-card__field">
+          <label class="editor-card__label">Section</label>
+          <select class="editor-card__select" id="post-section">
+            <option value="front9">Front 9</option>
+            <option value="propicks">Pro Picks</option>
+            <option value="back9">Back 9</option>
+            <option value="caddies">Caddie's Pick</option>
+            <option value="19th">19th Hole</option>
+          </select>
+        </div>
+        <div class="editor-card__field">
+          <label class="editor-card__label">Category</label>
+          <select class="editor-card__select" id="post-category"></select>
+        </div>
+        <div class="editor-card__field">
+          <label class="editor-card__label">Flag</label>
+          <select class="editor-card__select" id="post-flag">
+            <option value="">None</option>
+            <option value="top-story">Top Story</option>
+            <option value="breaking">Breaking</option>
+            <option value="trending">Trending</option>
+            <option value="viral">Viral</option>
+            <option value="hot-take">Hot Take</option>
+            <option value="caddies-pick">Caddie's Pick</option>
+            <option value="pro-pick">Pro Pick</option>
+            <option value="mulligan">Mulligan of the Week</option>
+            <option value="lab-tested">Lab Tested</option>
+            <option value="injury">Injury</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Slug card -->
+      <div class="editor-card">
+        <h4 class="editor-card__title">URL</h4>
+        <div class="editor-card__field">
+          <label class="editor-card__label">Slug</label>
+          <input type="text" class="editor-card__input" id="post-slug" placeholder="auto-generated-from-title">
+        </div>
+        <p class="editor-card__hint">/article/<span id="slug-preview">...</span>/</p>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- Slash Command Menu (positioned dynamically via JS) -->
+  <div class="slash-menu" id="slash-menu" role="listbox"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/content-seed.js"></script>
+  <script src="js/content.js"></script>
+  <script>
+    if (!TMRAuth.requireAuth()) throw new Error('Not authenticated');
+
+    var editingId = null;
+    var isNew = true;
+    var isDirty = false;
+    var autoSaveTimer = null;
+    var allTags = []; // populated from existing posts
+
+    // Check URL for editing existing post
+    var params = new URLSearchParams(window.location.search);
+    if (params.has('id')) {
+      editingId = params.get('id');
+      isNew = false;
+    }
+
+    // Init
+    TMRContent.init().then(function() {
+      populateCategories();
+      collectAllTags();
+      if (!isNew) {
+        loadPost(editingId);
+      } else {
+        updateSlugPreview();
+        // Show segment field by default since post+email is default
+        document.getElementById('segment-field').style.display = 'block';
+      }
+      startAutoSave();
+    });
+
+    // ===== SIDEBAR TOGGLES =====
+    var leftPanel = document.getElementById('research-panel');
+    var rightPanel = document.getElementById('controls-panel');
+    var layout = document.getElementById('create-layout');
+    var reopenLeft = document.getElementById('reopen-left');
+    var reopenRight = document.getElementById('reopen-right');
+
+    function collapseLeft() {
+      leftPanel.classList.add('create-research--collapsed');
+      reopenLeft.classList.add('create-reopen--visible');
+      updateLayoutColumns();
+    }
+
+    function expandLeft() {
+      leftPanel.classList.remove('create-research--collapsed');
+      reopenLeft.classList.remove('create-reopen--visible');
+      updateLayoutColumns();
+    }
+
+    function collapseRight() {
+      rightPanel.classList.add('create-controls--collapsed');
+      reopenRight.classList.add('create-reopen--visible');
+      updateLayoutColumns();
+    }
+
+    function expandRight() {
+      rightPanel.classList.remove('create-controls--collapsed');
+      reopenRight.classList.remove('create-reopen--visible');
+      updateLayoutColumns();
+    }
+
+    document.getElementById('toggle-left').addEventListener('click', function() {
+      if (leftPanel.classList.contains('create-research--collapsed')) {
+        expandLeft();
+      } else {
+        collapseLeft();
+      }
+    });
+
+    document.getElementById('toggle-right').addEventListener('click', function() {
+      if (rightPanel.classList.contains('create-controls--collapsed')) {
+        expandRight();
+      } else {
+        collapseRight();
+      }
+    });
+
+    reopenLeft.addEventListener('click', expandLeft);
+    reopenRight.addEventListener('click', expandRight);
+
+    function updateLayoutColumns() {
+      var leftOpen = !leftPanel.classList.contains('create-research--collapsed');
+      var rightOpen = !rightPanel.classList.contains('create-controls--collapsed');
+      if (leftOpen && rightOpen) layout.style.gridTemplateColumns = '280px 1fr 260px';
+      else if (leftOpen && !rightOpen) layout.style.gridTemplateColumns = '280px 1fr 0px';
+      else if (!leftOpen && rightOpen) layout.style.gridTemplateColumns = '0px 1fr 260px';
+      else layout.style.gridTemplateColumns = '0px 1fr 0px';
+    }
+
+    // ===== QUILL RICH TEXT EDITOR =====
+    var quill = new Quill('#post-body', {
+      modules: {
+        toolbar: '#quill-toolbar'
+      },
+      placeholder: 'Write your piece...',
+      theme: 'snow'
+    });
+
+    // Track dirty state from Quill edits
+    quill.on('text-change', function() {
+      isDirty = true;
+    });
+
+    // ===== VARIABLE PICKER =====
+    var variableBtn = document.getElementById('variable-btn');
+    var variableMenu = document.getElementById('variable-menu');
+
+    variableBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      variableMenu.classList.toggle('ql-variable-menu--open');
+    });
+
+    document.addEventListener('click', function() {
+      variableMenu.classList.remove('ql-variable-menu--open');
+    });
+
+    variableMenu.addEventListener('click', function(e) {
+      var btn = e.target.closest('.ql-variable-menu__item');
+      if (!btn) return;
+      e.stopPropagation();
+      var varText = btn.getAttribute('data-var');
+      var range = quill.getSelection(true);
+      quill.insertText(range.index, varText, { 'color': '#b8860b', 'bold': true });
+      quill.setSelection(range.index + varText.length);
+      variableMenu.classList.remove('ql-variable-menu--open');
+      isDirty = true;
+    });
+
+    // ===== SLASH COMMAND SYSTEM =====
+    var slashMenu = document.getElementById('slash-menu');
+    var slashActive = false;
+    var slashStartIndex = -1;
+    var slashQuery = '';
+    var slashItems = [];
+    var slashSelected = 0;
+
+    // All available slash commands
+    var SLASH_COMMANDS = [
+      // Formatting
+      { id: 'h1', name: 'Heading 1', hint: 'Large section heading', icon: 'H1', group: 'format', action: function(idx) { applyBlock('header', 1, idx); } },
+      { id: 'h2', name: 'Heading 2', hint: 'Medium section heading', icon: 'H2', group: 'format', action: function(idx) { applyBlock('header', 2, idx); } },
+      { id: 'h3', name: 'Heading 3', hint: 'Small section heading', icon: 'H3', group: 'format', action: function(idx) { applyBlock('header', 3, idx); } },
+      { id: 'body', name: 'Body', hint: 'Normal paragraph text', icon: 'P', group: 'format', action: function(idx) { applyBlock('header', false, idx); } },
+      { id: 'bold', name: 'Bold', hint: 'Strong emphasis', icon: 'B', group: 'format', action: function(idx) { applyInline('bold', idx); } },
+      { id: 'italic', name: 'Italic', hint: 'Subtle emphasis', icon: 'I', group: 'format', action: function(idx) { applyInline('italic', idx); } },
+      { id: 'underline', name: 'Underline', hint: 'Underlined text', icon: 'U', group: 'format', action: function(idx) { applyInline('underline', idx); } },
+      { id: 'strike', name: 'Strikethrough', hint: 'Crossed out text', icon: 'S', group: 'format', action: function(idx) { applyInline('strike', idx); } },
+      { id: 'link', name: 'Link', hint: 'Insert a hyperlink', icon: '&#128279;', group: 'format', action: function(idx) { insertLink(idx); } },
+      { id: 'quote', name: 'Blockquote', hint: 'Highlighted quote block', icon: '&#8220;', group: 'format', action: function(idx) { applyBlock('blockquote', true, idx); } },
+      { id: 'ol', name: 'Numbered List', hint: 'Ordered list', icon: '1.', group: 'format', action: function(idx) { applyBlock('list', 'ordered', idx); } },
+      { id: 'ul', name: 'Bullet List', hint: 'Unordered list', icon: '&#8226;', group: 'format', action: function(idx) { applyBlock('list', 'bullet', idx); } },
+      { id: 'image', name: 'Image', hint: 'Embed an image URL', icon: '&#128247;', group: 'format', action: function(idx) { insertImage(idx); } },
+      { id: 'hr', name: 'Divider', hint: 'Horizontal rule', icon: '---', group: 'format', action: function(idx) { insertDivider(idx); } },
+      { id: 'clear', name: 'Clear Formatting', hint: 'Remove all formatting', icon: '&#10005;', group: 'format', action: function(idx) { clearFormat(idx); } },
+      // Variables
+      { id: 'var-first', name: 'First Name', hint: '{{first_name}}', icon: 'Fn', group: 'variable', action: function(idx) { insertVariable('{{first_name}}', idx); } },
+      { id: 'var-last', name: 'Last Name', hint: '{{last_name}}', icon: 'Ln', group: 'variable', action: function(idx) { insertVariable('{{last_name}}', idx); } },
+      { id: 'var-email', name: 'Email', hint: '{{email}}', icon: '@', group: 'variable', action: function(idx) { insertVariable('{{email}}', idx); } },
+      { id: 'var-subid', name: 'Subscriber ID', hint: '{{subscriber_id}}', icon: '#', group: 'variable', action: function(idx) { insertVariable('{{subscriber_id}}', idx); } },
+      { id: 'var-unsub', name: 'Unsubscribe URL', hint: '{{unsubscribe_url}}', icon: '&#128279;', group: 'variable', action: function(idx) { insertVariable('{{unsubscribe_url}}', idx); } },
+      { id: 'var-date', name: 'Current Date', hint: '{{current_date}}', icon: '&#128197;', group: 'variable', action: function(idx) { insertVariable('{{current_date}}', idx); } },
+    ];
+
+    function filterSlashCommands(query) {
+      if (!query) return SLASH_COMMANDS;
+      var q = query.toLowerCase();
+      return SLASH_COMMANDS.filter(function(cmd) {
+        return cmd.name.toLowerCase().indexOf(q) > -1 ||
+               cmd.id.toLowerCase().indexOf(q) > -1 ||
+               cmd.hint.toLowerCase().indexOf(q) > -1;
+      });
+    }
+
+    function renderSlashMenu(items) {
+      slashItems = items;
+      slashSelected = 0;
+      if (items.length === 0) {
+        slashMenu.innerHTML = '<div class="slash-menu__empty">No matching commands</div>';
+        return;
+      }
+      var html = '';
+      var lastGroup = '';
+      items.forEach(function(cmd, i) {
+        if (cmd.group !== lastGroup) {
+          if (lastGroup) html += '<div class="slash-menu__divider"></div>';
+          var label = cmd.group === 'format' ? 'Formatting' : 'Variables';
+          html += '<div class="slash-menu__label">' + label + '</div>';
+          lastGroup = cmd.group;
+        }
+        html += '<button class="slash-menu__item' + (i === 0 ? ' slash-menu__item--active' : '') +
+          '" data-index="' + i + '" role="option">' +
+          '<span class="slash-menu__icon">' + cmd.icon + '</span>' +
+          '<span class="slash-menu__text">' +
+          '<span class="slash-menu__name">' + cmd.name + '</span>' +
+          '<span class="slash-menu__hint">' + cmd.hint + '</span>' +
+          '</span></button>';
+      });
+      slashMenu.innerHTML = html;
+    }
+
+    function positionSlashMenu() {
+      var selection = window.getSelection();
+      if (!selection.rangeCount) return;
+      var range = selection.getRangeAt(0);
+      var rect = range.getBoundingClientRect();
+      // Position below the cursor
+      var top = rect.bottom + 6;
+      var left = rect.left;
+      // Keep within viewport
+      if (left + 260 > window.innerWidth) left = window.innerWidth - 270;
+      if (top + 320 > window.innerHeight) top = rect.top - 326;
+      slashMenu.style.top = top + 'px';
+      slashMenu.style.left = left + 'px';
+    }
+
+    function openSlashMenu() {
+      slashActive = true;
+      var range = quill.getSelection();
+      if (range) slashStartIndex = range.index;
+      var items = filterSlashCommands('');
+      renderSlashMenu(items);
+      positionSlashMenu();
+      slashMenu.classList.add('slash-menu--open');
+    }
+
+    function closeSlashMenu() {
+      slashActive = false;
+      slashStartIndex = -1;
+      slashQuery = '';
+      slashMenu.classList.remove('slash-menu--open');
+    }
+
+    function executeSlashCommand(index) {
+      var cmd = slashItems[index];
+      if (!cmd) return;
+      // Remove the slash and any query text the user typed
+      var range = quill.getSelection();
+      var deleteFrom = slashStartIndex - 1; // -1 for the "/" character
+      var deleteTo = range ? range.index : slashStartIndex + slashQuery.length;
+      var deleteLen = deleteTo - deleteFrom;
+      if (deleteLen > 0) {
+        quill.deleteText(deleteFrom, deleteLen);
+      }
+      closeSlashMenu();
+      cmd.action(deleteFrom);
+    }
+
+    // Slash command actions
+    function applyBlock(format, value, idx) {
+      quill.setSelection(idx, 0);
+      quill.format(format, value);
+      quill.focus();
+    }
+
+    function applyInline(format, idx) {
+      quill.setSelection(idx, 0);
+      quill.format(format, true);
+      quill.focus();
+    }
+
+    function insertLink(idx) {
+      var url = prompt('Enter URL:');
+      if (!url) { quill.focus(); return; }
+      var text = prompt('Link text:', url);
+      if (!text) text = url;
+      quill.insertText(idx, text, { link: url });
+      quill.setSelection(idx + text.length);
+    }
+
+    function insertImage(idx) {
+      var url = prompt('Enter image URL:');
+      if (!url) { quill.focus(); return; }
+      quill.insertEmbed(idx, 'image', url);
+      quill.setSelection(idx + 1);
+    }
+
+    function insertDivider(idx) {
+      quill.insertText(idx, '\n');
+      quill.insertEmbed(idx + 1, 'divider', true);
+      quill.setSelection(idx + 2);
+    }
+
+    function clearFormat(idx) {
+      var range = quill.getSelection();
+      if (range && range.length > 0) {
+        quill.removeFormat(range.index, range.length);
+      } else {
+        quill.removeFormat(idx, 0);
+        quill.format('header', false);
+        quill.format('blockquote', false);
+        quill.format('list', false);
+      }
+      quill.focus();
+    }
+
+    function insertVariable(varText, idx) {
+      quill.insertText(idx, varText, { 'color': '#b8860b', 'bold': true });
+      quill.setSelection(idx + varText.length);
+    }
+
+    // Listen for "/" in Quill
+    quill.on('text-change', function(delta, oldDelta, source) {
+      if (source !== 'user') return;
+      if (!slashActive) {
+        // Check if the user just typed "/"
+        var ops = delta.ops || [];
+        var lastOp = ops[ops.length - 1];
+        if (lastOp && lastOp.insert === '/') {
+          // Check it's at the start of a line or after whitespace
+          var range = quill.getSelection();
+          if (range) {
+            var textBefore = quill.getText(0, range.index);
+            var charBefore = textBefore.length > 1 ? textBefore[textBefore.length - 2] : '';
+            if (!charBefore || charBefore === '\n' || charBefore === ' ' || charBefore === '\t') {
+              openSlashMenu();
+            }
+          }
+        }
+      } else {
+        // Update the filter query
+        var range = quill.getSelection();
+        if (range) {
+          slashQuery = quill.getText(slashStartIndex, range.index - slashStartIndex);
+          var items = filterSlashCommands(slashQuery);
+          renderSlashMenu(items);
+          positionSlashMenu();
+        }
+      }
+    });
+
+    // Keyboard navigation for slash menu
+    quill.root.addEventListener('keydown', function(e) {
+      if (!slashActive) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        slashSelected = Math.min(slashSelected + 1, slashItems.length - 1);
+        updateSlashSelection();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        slashSelected = Math.max(slashSelected - 1, 0);
+        updateSlashSelection();
+      } else if (e.key === 'Enter' || e.key === 'Tab') {
+        e.preventDefault();
+        executeSlashCommand(slashSelected);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        closeSlashMenu();
+      }
+    });
+
+    function updateSlashSelection() {
+      var items = slashMenu.querySelectorAll('.slash-menu__item');
+      items.forEach(function(el, i) {
+        el.classList.toggle('slash-menu__item--active', i === slashSelected);
+      });
+      // Scroll into view
+      if (items[slashSelected]) {
+        items[slashSelected].scrollIntoView({ block: 'nearest' });
+      }
+    }
+
+    // Click to select slash command
+    slashMenu.addEventListener('mousedown', function(e) {
+      e.preventDefault(); // prevent blur
+      var item = e.target.closest('.slash-menu__item');
+      if (!item) return;
+      var index = parseInt(item.getAttribute('data-index'), 10);
+      executeSlashCommand(index);
+    });
+
+    // Close slash menu on click outside
+    document.addEventListener('mousedown', function(e) {
+      if (slashActive && !slashMenu.contains(e.target)) {
+        closeSlashMenu();
+      }
+    });
+
+    // ===== AUTO-SAVE (every 5 seconds) =====
+    function startAutoSave() {
+      // Mark dirty on any input (Quill is handled above via text-change event)
+      var fields = document.querySelectorAll('#post-title, #post-excerpt, #post-source, #post-source-url, #post-slug, #post-status, #post-type, #post-section, #post-category, #post-flag');
+      fields.forEach(function(el) {
+        el.addEventListener('input', function() { isDirty = true; });
+        el.addEventListener('change', function() { isDirty = true; });
+      });
+
+      setInterval(function() {
+        if (!isDirty) return;
+        var title = document.getElementById('post-title').value.trim();
+        if (!title) return; // don't auto-save empty posts
+
+        var postData = gatherFormData();
+        if (isNew) {
+          var created = TMRContent.createPost(postData);
+          editingId = created.id;
+          isNew = false;
+          history.replaceState(null, '', 'create.html?id=' + created.id);
+        } else {
+          TMRContent.updatePost(editingId, postData);
+        }
+        isDirty = false;
+        showAutoSaveStatus('Saved');
+      }, 5000);
+    }
+
+    function showAutoSaveStatus(msg) {
+      var el = document.getElementById('autosave-status');
+      el.textContent = msg;
+      el.classList.add('autosave-status--visible');
+      setTimeout(function() {
+        el.classList.remove('autosave-status--visible');
+      }, 2000);
+    }
+
+    // ===== TAG AUTOCOMPLETE =====
+    function collectAllTags() {
+      var posts = TMRContent.getPosts();
+      var tagSet = {};
+      posts.forEach(function(p) {
+        if (p.tags) p.tags.forEach(function(t) { tagSet[t] = true; });
+      });
+      allTags = Object.keys(tagSet).sort();
+    }
+
+    var tagsField = document.getElementById('tags-field');
+    var tagsDisplay = document.getElementById('tags-display');
+    var tagsDropdown = document.getElementById('tags-dropdown');
+    var currentTags = [];
+
+    function renderTags() {
+      tagsDisplay.innerHTML = currentTags.map(function(tag) {
+        return '<span class="tags-input__chip">' +
+          '<span>' + escapeHtml(tag) + '</span>' +
+          '<button onclick="removeTag(\'' + escapeHtml(tag) + '\')">&times;</button>' +
+        '</span>';
+      }).join('');
+    }
+
+    function addTag(tag) {
+      tag = tag.trim().toLowerCase();
+      if (!tag || currentTags.indexOf(tag) > -1) return;
+      currentTags.push(tag);
+      if (allTags.indexOf(tag) === -1) allTags.push(tag);
+      renderTags();
+      tagsField.value = '';
+      tagsDropdown.innerHTML = '';
+      isDirty = true;
+    }
+
+    function removeTag(tag) {
+      currentTags = currentTags.filter(function(t) { return t !== tag; });
+      renderTags();
+      isDirty = true;
+    }
+
+    tagsField.addEventListener('input', function() {
+      var val = this.value.trim().toLowerCase();
+      if (!val) { tagsDropdown.innerHTML = ''; return; }
+
+      var matches = allTags.filter(function(t) {
+        return t.indexOf(val) > -1 && currentTags.indexOf(t) === -1;
+      }).slice(0, 8);
+
+      var exactMatch = allTags.indexOf(val) > -1;
+      var html = matches.map(function(t) {
+        return '<div class="tags-input__option" onmousedown="addTag(\'' + escapeHtml(t) + '\')">' + escapeHtml(t) + '</div>';
+      }).join('');
+
+      if (!exactMatch && val.length > 0) {
+        html += '<div class="tags-input__option tags-input__option--new" onmousedown="addTag(\'' + escapeHtml(val) + '\')">+ Create "' + escapeHtml(val) + '"</div>';
+      }
+
+      tagsDropdown.innerHTML = html;
+    });
+
+    tagsField.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ',') {
+        e.preventDefault();
+        if (this.value.trim()) addTag(this.value);
+      }
+      if (e.key === 'Backspace' && !this.value && currentTags.length > 0) {
+        currentTags.pop();
+        renderTags();
+        isDirty = true;
+      }
+    });
+
+    tagsField.addEventListener('blur', function() {
+      setTimeout(function() { tagsDropdown.innerHTML = ''; }, 150);
+    });
+
+    // ===== INSERT RESEARCH =====
+    function insertResearch(id) {
+      var item = document.querySelector('[data-id="' + id + '"]');
+      if (!item) return;
+      var title = item.querySelector('.research-item__title').textContent;
+      var source = item.querySelector('.research-item__source').textContent;
+      var snippet = item.querySelector('.research-item__snippet').textContent;
+      var url = item.getAttribute('data-url') || '';
+
+      var len = quill.getLength();
+      quill.insertText(len - 1, '\n');
+      quill.insertText(len, title, { 'bold': true });
+      quill.insertText(quill.getLength() - 1, '\n' + snippet + '\n');
+      quill.insertText(quill.getLength() - 1, 'Source: ' + source, { 'italic': true, 'link': url || null });
+      quill.insertText(quill.getLength() - 1, '\n');
+      quill.setSelection(quill.getLength());
+      isDirty = true;
+      showToast('Research inserted');
+    }
+
+    // ===== SEND TEST EMAIL =====
+    function sendTestEmail() {
+      var title = document.getElementById('post-title').value.trim();
+      if (!title) { alert('Write a title first.'); return; }
+
+      // Save current state first
+      savePost();
+
+      // Placeholder for Resend API integration
+      showToast('Test email sent to admin@themulliganreport.com');
+      // TODO: When Resend API is wired up, this will:
+      // 1. Render the post body through the newsletter template
+      // 2. Call Resend API to send to admin email
+      // 3. Show success/error toast
+    }
+
+    // ===== SHOW/HIDE FIELDS =====
+    document.getElementById('post-type').addEventListener('change', function() {
+      var hasEmail = this.value === 'email' || this.value === 'post+email';
+      document.getElementById('segment-field').style.display = hasEmail ? 'block' : 'none';
+      document.getElementById('test-email-row').style.display = hasEmail ? 'flex' : 'none';
+      isDirty = true;
+    });
+
+    document.getElementById('post-status').addEventListener('change', function() {
+      document.getElementById('schedule-field').style.display = this.value === 'scheduled' ? 'block' : 'none';
+      if (this.value === 'published') {
+        document.getElementById('btn-save').textContent = 'Publish';
+      } else {
+        document.getElementById('btn-save').textContent = 'Save ' + (this.value === 'scheduled' ? '& Schedule' : 'Draft');
+      }
+      isDirty = true;
+    });
+
+    // ===== POPULATE =====
+    function populateCategories() {
+      var select = document.getElementById('post-category');
+      TMRContent.getCategories().forEach(function(cat) {
+        var opt = document.createElement('option');
+        opt.value = cat.id;
+        opt.textContent = cat.label;
+        select.appendChild(opt);
+      });
+    }
+
+    function loadPost(id) {
+      var post = TMRContent.getPost(id);
+      if (!post) {
+        alert('Post not found.');
+        window.location.href = 'dashboard.html';
+        return;
+      }
+      document.title = 'Edit: ' + post.title + ' - TMR';
+      document.getElementById('post-title').value = post.title;
+      document.getElementById('post-excerpt').value = post.excerpt;
+      // Load body into Quill (supports both HTML and plain text)
+      if (post.body && post.body.indexOf('<') > -1) {
+        quill.root.innerHTML = post.body;
+      } else {
+        quill.setText(post.body || '');
+      }
+      document.getElementById('post-source').value = post.source;
+      document.getElementById('post-source-url').value = post.sourceUrl || '';
+      document.getElementById('post-status').value = post.status;
+      document.getElementById('post-type').value = post.type;
+      document.getElementById('post-section').value = post.section;
+      document.getElementById('post-category').value = post.category;
+      document.getElementById('post-flag').value = post.flag || '';
+      document.getElementById('post-slug').value = post.slug;
+
+      // Load tags into chip UI
+      currentTags = post.tags || [];
+      renderTags();
+
+      // Show segment field if email type
+      var hasEmail = post.type === 'email' || post.type === 'post+email';
+      document.getElementById('segment-field').style.display = hasEmail ? 'block' : 'none';
+      document.getElementById('test-email-row').style.display = hasEmail ? 'flex' : 'none';
+
+      if (post.scheduledAt) {
+        document.getElementById('post-scheduled').value = post.scheduledAt.slice(0, 16);
+        document.getElementById('schedule-field').style.display = 'block';
+      }
+
+      if (post.status === 'published') {
+        document.getElementById('btn-save').textContent = 'Update';
+        document.getElementById('btn-publish').textContent = 'Unpublish';
+        document.getElementById('btn-publish').onclick = unpublishPost;
+      }
+
+      var meta = document.getElementById('post-meta');
+      meta.textContent = 'Created ' + formatDate(post.createdAt) +
+        (post.updatedAt ? ' | Updated ' + formatDate(post.updatedAt) : '');
+
+      updateSlugPreview();
+    }
+
+    // ===== SAVE / PUBLISH =====
+    function savePost() {
+      var postData = gatherFormData();
+      if (!postData.title) { alert('Title is required.'); return; }
+
+      if (isNew) {
+        var created = TMRContent.createPost(postData);
+        editingId = created.id;
+        isNew = false;
+        history.replaceState(null, '', 'create.html?id=' + created.id);
+        showToast('Post created!');
+      } else {
+        TMRContent.updatePost(editingId, postData);
+        showToast('Post saved!');
+      }
+      isDirty = false;
+      updateMeta();
+    }
+
+    function publishPost() {
+      var postData = gatherFormData();
+      postData.status = 'published';
+      if (!postData.title) { alert('Title is required.'); return; }
+
+      if (isNew) {
+        var created = TMRContent.createPost(postData);
+        editingId = created.id;
+        isNew = false;
+        history.replaceState(null, '', 'create.html?id=' + created.id);
+      } else {
+        TMRContent.updatePost(editingId, postData);
+      }
+      document.getElementById('post-status').value = 'published';
+      document.getElementById('btn-save').textContent = 'Update';
+      document.getElementById('btn-publish').textContent = 'Unpublish';
+      document.getElementById('btn-publish').onclick = unpublishPost;
+      isDirty = false;
+      showToast('Post published!');
+      updateMeta();
+    }
+
+    function unpublishPost() {
+      TMRContent.updatePost(editingId, { status: 'draft' });
+      document.getElementById('post-status').value = 'draft';
+      document.getElementById('btn-save').textContent = 'Save Draft';
+      document.getElementById('btn-publish').textContent = 'Publish';
+      document.getElementById('btn-publish').onclick = publishPost;
+      isDirty = false;
+      showToast('Post unpublished.');
+      updateMeta();
+    }
+
+    // ===== HELPERS =====
+    function gatherFormData() {
+      return {
+        title: document.getElementById('post-title').value.trim(),
+        excerpt: document.getElementById('post-excerpt').value.trim(),
+        body: quill.root.innerHTML.trim() === '<p><br></p>' ? '' : quill.root.innerHTML.trim(),
+        source: document.getElementById('post-source').value.trim() || 'TMR Editorial',
+        sourceUrl: document.getElementById('post-source-url').value.trim(),
+        tags: currentTags.slice(),
+        status: document.getElementById('post-status').value,
+        type: document.getElementById('post-type').value,
+        section: document.getElementById('post-section').value,
+        category: document.getElementById('post-category').value,
+        flag: document.getElementById('post-flag').value || null,
+        slug: document.getElementById('post-slug').value.trim() || undefined,
+        scheduledAt: document.getElementById('post-status').value === 'scheduled' ?
+          new Date(document.getElementById('post-scheduled').value).toISOString() : null
+      };
+    }
+
+    function updateMeta() {
+      if (!editingId) return;
+      var post = TMRContent.getPost(editingId);
+      if (!post) return;
+      document.getElementById('post-meta').textContent =
+        'Created ' + formatDate(post.createdAt) + ' | Updated ' + formatDate(post.updatedAt);
+    }
+
+    function formatDate(isoStr) {
+      return new Date(isoStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+    }
+
+    function updateSlugPreview() {
+      var slug = document.getElementById('post-slug').value ||
+        document.getElementById('post-title').value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').substring(0, 60) ||
+        '...';
+      document.getElementById('slug-preview').textContent = slug;
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function showToast(msg) {
+      var toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      setTimeout(function() { toast.classList.add('toast--visible'); }, 10);
+      setTimeout(function() {
+        toast.classList.remove('toast--visible');
+        setTimeout(function() { toast.remove(); }, 300);
+      }, 2000);
+    }
+
+    // ===== EVENT LISTENERS =====
+    document.getElementById('post-title').addEventListener('input', updateSlugPreview);
+    document.getElementById('post-slug').addEventListener('input', updateSlugPreview);
+
+    // Cmd/Ctrl+S to save
+    document.addEventListener('keydown', function(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        savePost();
+      }
+    });
+  </script>
+</body>
+</html>

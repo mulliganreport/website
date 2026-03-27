@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TMR Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="login-page">
+
+  <div class="login">
+    <div class="login__logo">THE MULLIGAN <em>REPORT</em></div>
+    <p class="login__sub">Editorial Dashboard</p>
+    <form class="login__form" id="login-form">
+      <input type="email" class="login__input" id="login-email" placeholder="admin@themulliganreport.com" autocomplete="email" autofocus>
+      <input type="password" class="login__input" id="login-password" placeholder="Password" autocomplete="current-password">
+      <button type="submit" class="login__btn">Sign In</button>
+      <p class="login__error" id="login-error"></p>
+    </form>
+    <p class="login__fine">Team access only</p>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    // If already logged in, skip to dashboard
+    if (TMRAuth.isAuthenticated()) {
+      window.location.href = 'dashboard.html';
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var email = document.getElementById('login-email').value.trim();
+      var pw = document.getElementById('login-password').value;
+      var err = document.getElementById('login-error');
+      err.textContent = '';
+
+      if (!email || !pw) {
+        err.textContent = 'Enter your email and password.';
+        return;
+      }
+
+      var ok = await TMRAuth.login(email, pw);
+      if (ok) {
+        window.location.href = 'dashboard.html';
+      } else {
+        err.textContent = 'Invalid credentials. Try again.';
+        document.getElementById('login-password').value = '';
+        document.getElementById('login-password').focus();
+      }
+    });
+  </script>
+</body>
+</html>

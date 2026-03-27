@@ -1,0 +1,272 @@
+/* ============================================
+   ABOUT PAGE - The Mulligan Report
+   ============================================ */
+
+/* --- Hero --- */
+.about-hero {
+  background: var(--augusta-deep);
+  padding: var(--space-3xl) var(--page-padding) var(--space-2xl);
+  text-align: center;
+  position: relative;
+}
+
+.about-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+
+.about-hero__flag { margin-bottom: var(--space-md); }
+
+.about-hero__title {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--cream);
+  margin-bottom: var(--space-sm);
+}
+
+.about-hero__subtitle {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-style: italic;
+  color: rgba(255,255,255,0.4);
+  max-width: 440px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* --- Content Sections --- */
+.about-content {
+  padding: var(--space-2xl) var(--page-padding);
+}
+
+.about-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.about-section__heading {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--augusta);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--gold);
+  display: inline-block;
+}
+
+.about-section p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--ink-2);
+  line-height: 1.8;
+  margin-bottom: var(--space-md);
+  max-width: 640px;
+}
+
+.about-section p strong {
+  color: var(--ink);
+}
+
+/* --- Team --- */
+.about-team {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.about-team__member {
+  display: flex;
+  gap: var(--space-lg);
+  align-items: flex-start;
+  padding: var(--space-lg);
+  background: var(--white);
+  border: 1px solid var(--rule-light);
+  border-radius: 6px;
+  transition: border-color var(--ease);
+}
+
+.about-team__member:hover {
+  border-color: var(--gold);
+}
+
+.about-team__avatar {
+  width: 56px; height: 56px;
+  background: var(--augusta);
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.about-team__info { flex: 1; }
+
+.about-team__name {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.about-team__role {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-4);
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+.about-team__bio {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+/* --- Features Grid --- */
+.about-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.about-feature {
+  padding: var(--space-lg);
+  background: var(--white);
+  border: 1px solid var(--rule-light);
+  border-radius: 6px;
+  transition: border-color var(--ease), transform var(--ease);
+}
+
+.about-feature:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.about-feature__icon {
+  font-size: 24px;
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+.about-feature__title {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--space-xs);
+}
+
+.about-feature__desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+
+/* --- CTA Section --- */
+.about-section--cta {
+  margin-bottom: var(--space-2xl);
+}
+
+.about-cta {
+  background: var(--augusta);
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  padding: var(--space-2xl);
+  text-align: center;
+}
+
+.about-cta__title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--cream);
+  margin-bottom: var(--space-sm);
+}
+
+.about-cta__desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-style: italic;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: var(--space-lg);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-cta__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.about-cta__input {
+  padding: 12px 16px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.about-cta__input::placeholder {
+  color: rgba(255,255,255,0.35);
+}
+
+.about-cta__btn {
+  background: var(--gold);
+  color: var(--augusta-deep);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background var(--ease);
+}
+
+.about-cta__btn:hover {
+  background: var(--gold-light);
+}
+
+.about-cta__fine {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  margin-top: var(--space-md);
+}
+
+/* --- Mobile --- */
+@media (max-width: 768px) {
+  .about-hero__title { font-size: 30px; }
+
+  .about-team__member {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .about-features {
+    grid-template-columns: 1fr;
+  }
+
+  .about-cta { padding: var(--space-xl); }
+}

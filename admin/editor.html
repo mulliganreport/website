@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting... - TMR</title>
+  <script>
+    // editor.html is deprecated — all editing now happens in create.html
+    // Preserve any query params (e.g. ?id=abc123) so edit links still work
+    var search = window.location.search || '';
+    window.location.replace('create.html' + search);
+  </script>
+</head>
+<body>
+  <p>Redirecting to editor...</p>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archive - TMR</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- ====== TOP BAR ====== -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <a href="dashboard.html" class="topbar__logo">TMR</a>
+      <nav class="topbar__nav">
+        <a href="research.html" class="topbar__tab" data-tab="research">Research</a>
+        <a href="create.html" class="topbar__tab" data-tab="create">Create</a>
+        <a href="dashboard.html" class="topbar__tab topbar__tab--active" data-tab="archive">Archive</a>
+      </nav>
+    </div>
+    <div class="topbar__right">
+      <a href="../index.html" class="topbar__icon-btn" target="_blank" title="View Site">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+      <button class="topbar__icon-btn" onclick="TMRAuth.logout()" title="Sign Out">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ====== MAIN ====== -->
+  <div class="admin-layout">
+
+    <!-- Stats Bar -->
+    <div class="stats-bar" id="stats-bar"></div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar__left">
+        <div class="toolbar__filters">
+          <button class="toolbar__filter toolbar__filter--active" data-status="all">All</button>
+          <button class="toolbar__filter" data-status="published">Published</button>
+          <button class="toolbar__filter" data-status="draft">Drafts</button>
+          <button class="toolbar__filter" data-status="scheduled">Scheduled</button>
+          <button class="toolbar__filter" data-status="trash">Trash</button>
+        </div>
+        <select class="toolbar__select" id="filter-section">
+          <option value="all">All Sections</option>
+        </select>
+        <select class="toolbar__select" id="filter-category">
+          <option value="all">All Categories</option>
+        </select>
+      </div>
+      <div class="toolbar__right">
+        <input type="search" class="toolbar__search" id="search-input" placeholder="Search posts...">
+        <a href="create.html" class="toolbar__btn toolbar__btn--new">+ New Post</a>
+      </div>
+    </div>
+
+    <!-- Content Table -->
+    <div class="content-table">
+      <div class="content-table__head">
+        <span class="content-table__col content-table__col--title">Title</span>
+        <span class="content-table__col content-table__col--section">Section</span>
+        <span class="content-table__col content-table__col--type">Type</span>
+        <span class="content-table__col content-table__col--status">Status</span>
+        <span class="content-table__col content-table__col--date">Date</span>
+        <span class="content-table__col content-table__col--actions">Actions</span>
+      </div>
+      <div class="content-table__body" id="content-list">
+        <div class="content-table__empty">Loading...</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/content-seed.js"></script>
+  <script src="js/content.js"></script>
+  <script>
+    // Auth gate
+    if (!TMRAuth.requireAuth()) throw new Error('Not authenticated');
+
+    var currentFilter = 'all';
+    var currentSection = 'all';
+    var currentCategory = 'all';
+    var searchQuery = '';
+
+    // Initialize
+    TMRContent.init().then(function() {
+      renderStats();
+      populateDropdowns();
+      renderPosts();
+    });
+
+    // --- Stats ---
+    function renderStats() {
+      var s = TMRContent.getStats();
+      var bar = document.getElementById('stats-bar');
+      bar.innerHTML =
+        '<div class="stat"><span class="stat__num">' + s.total + '</span><span class="stat__label">Total</span></div>' +
+        '<div class="stat stat--green"><span class="stat__num">' + s.published + '</span><span class="stat__label">Published</span></div>' +
+        '<div class="stat stat--gold"><span class="stat__num">' + s.draft + '</span><span class="stat__label">Drafts</span></div>' +
+        '<div class="stat stat--blue"><span class="stat__num">' + s.scheduled + '</span><span class="stat__label">Scheduled</span></div>' +
+        '<div class="stat stat--red"><span class="stat__num">' + s.trash + '</span><span class="stat__label">Trash</span></div>';
+    }
+
+    // --- Dropdowns ---
+    function populateDropdowns() {
+      var secSelect = document.getElementById('filter-section');
+      TMRContent.getSections().forEach(function(sec) {
+        var opt = document.createElement('option');
+        opt.value = sec.id;
+        opt.textContent = sec.icon + ' ' + sec.label;
+        secSelect.appendChild(opt);
+      });
+
+      var catSelect = document.getElementById('filter-category');
+      TMRContent.getCategories().forEach(function(cat) {
+        var opt = document.createElement('option');
+        opt.value = cat.id;
+        opt.textContent = cat.label;
+        catSelect.appendChild(opt);
+      });
+    }
+
+    // --- Render posts ---
+    function renderPosts() {
+      var posts = TMRContent.getPosts();
+      var list = document.getElementById('content-list');
+
+      // Apply filters
+      var filtered = posts.filter(function(p) {
+        if (currentFilter !== 'all' && p.status !== currentFilter) return false;
+        if (currentSection !== 'all' && p.section !== currentSection) return false;
+        if (currentCategory !== 'all' && p.category !== currentCategory) return false;
+        if (searchQuery) {
+          var q = searchQuery.toLowerCase();
+          return p.title.toLowerCase().indexOf(q) > -1 ||
+                 p.excerpt.toLowerCase().indexOf(q) > -1 ||
+                 (p.tags && p.tags.join(' ').indexOf(q) > -1);
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<div class="content-table__empty">No posts found.</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(function(p) {
+        var statusClass = 'badge--' + p.status;
+        var typeLabel = p.type === 'post+email' ? 'Post + Email' : p.type === 'email' ? 'Email Only' : 'Post Only';
+        var typeClass = p.type === 'post+email' ? 'type--both' : p.type === 'email' ? 'type--email' : 'type--post';
+        var dateStr = p.publishedAt ? formatDate(p.publishedAt) : (p.scheduledAt ? 'Sched: ' + formatDate(p.scheduledAt) : formatDate(p.createdAt));
+        var sectionLabel = getSectionLabel(p.section);
+
+        var actions = '';
+        if (p.status === 'trash') {
+          actions = '<button class="row-action row-action--restore" onclick="restorePost(\'' + p.id + '\')">Restore</button>' +
+                    '<button class="row-action row-action--delete" onclick="permanentDelete(\'' + p.id + '\')">Delete</button>';
+        } else {
+          actions = '<a href="create.html?id=' + p.id + '" class="row-action">Edit</a>' +
+                    '<button class="row-action row-action--delete" onclick="trashPost(\'' + p.id + '\')">Trash</button>';
+        }
+
+        return '<div class="content-table__row">' +
+          '<div class="content-table__col content-table__col--title">' +
+            '<a href="create.html?id=' + p.id + '" class="row-title">' + escapeHtml(p.title) + '</a>' +
+            (p.flag ? '<span class="row-flag">' + escapeHtml(p.flag) + '</span>' : '') +
+          '</div>' +
+          '<div class="content-table__col content-table__col--section">' + sectionLabel + '</div>' +
+          '<div class="content-table__col content-table__col--type"><span class="type-badge ' + typeClass + '">' + typeLabel + '</span></div>' +
+          '<div class="content-table__col content-table__col--status"><span class="badge ' + statusClass + '">' + capitalize(p.status) + '</span></div>' +
+          '<div class="content-table__col content-table__col--date">' + dateStr + '</div>' +
+          '<div class="content-table__col content-table__col--actions">' + actions + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    // --- Filter listeners ---
+    document.querySelectorAll('.toolbar__filter').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.toolbar__filter').forEach(function(b) { b.classList.remove('toolbar__filter--active'); });
+        btn.classList.add('toolbar__filter--active');
+        currentFilter = btn.getAttribute('data-status');
+        renderPosts();
+      });
+    });
+
+    document.getElementById('filter-section').addEventListener('change', function() {
+      currentSection = this.value;
+      renderPosts();
+    });
+
+    document.getElementById('filter-category').addEventListener('change', function() {
+      currentCategory = this.value;
+      renderPosts();
+    });
+
+    document.getElementById('search-input').addEventListener('input', function() {
+      searchQuery = this.value;
+      renderPosts();
+    });
+
+    // --- Actions ---
+    function trashPost(id) {
+      if (confirm('Move this post to trash?')) {
+        TMRContent.deletePost(id);
+        renderStats();
+        renderPosts();
+      }
+    }
+
+    function restorePost(id) {
+      TMRContent.restorePost(id);
+      renderStats();
+      renderPosts();
+    }
+
+    function permanentDelete(id) {
+      if (confirm('Permanently delete this post? This cannot be undone.')) {
+        TMRContent.deletePost(id, true);
+        renderStats();
+        renderPosts();
+      }
+    }
+
+    // --- Helpers ---
+    function formatDate(isoStr) {
+      var d = new Date(isoStr);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function getSectionLabel(id) {
+      var map = { front9: 'Front 9', propicks: 'Pro Picks', back9: 'Back 9', caddies: "Caddie's Pick", '19th': '19th Hole' };
+      return map[id] || id;
+    }
+  </script>
+</body>
+</html>

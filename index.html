@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Mulligan Report - Your Daily Golf Briefing</title>
+  <meta name="description" content="The best golf stories, curated every morning before your tee time. Pro tour news, swing tips, gear reviews, hot takes, and a daily cartoon.">
+  <link rel="canonical" href="https://themulliganreport.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="The Mulligan Report - Your Daily Golf Briefing">
+  <meta property="og:description" content="The best golf stories, curated every morning before your tee time. Pro tour news, swing tips, gear reviews, hot takes, and a daily cartoon.">
+  <meta property="og:image" content="https://themulliganreport.com/img/og-image.jpg">
+  <meta property="og:url" content="https://themulliganreport.com/">
+  <meta property="og:site_name" content="The Mulligan Report">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Mulligan Report - Your Daily Golf Briefing">
+  <meta name="twitter:description" content="The best golf stories, curated every morning before your tee time.">
+  <meta name="twitter:image" content="https://themulliganreport.com/img/og-image.jpg">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"The Mulligan Report","description":"A daily golf newsletter with pro tour news, swing tips, gear reviews, and original cartoons","url":"https://themulliganreport.com","publisher":{"@type":"Organization","name":"The Mulligan Report"}}</script>
+  <link rel="stylesheet" href="css/brand.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+
+  <!-- ====== SITE HEADER ====== -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="index.html" class="site-header__logo">THE MULLIGAN <em>REPORT</em></a>
+      <button class="site-header__toggle" onclick="toggleNav()" aria-label="Toggle navigation">&#9776;</button>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="index.html" class="site-header__link site-header__link--active">Today's Round</a>
+        <a href="archive.html" class="site-header__link">Archive</a>
+        <a href="about.html" class="site-header__link">About</a>
+        <button class="site-header__cta" onclick="openSubscribe()">Subscribe</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ====== MASTHEAD ====== -->
+  <section class="masthead">
+    <div class="masthead__top">
+      <span class="masthead__est">Est. 2026</span>
+      <nav class="masthead__sections" aria-label="Newsletter sections">
+        <a href="#section-front9" class="masthead__section-link masthead__section-link--active" onclick="scrollToSection('section-front9')">Front 9</a>
+        <a href="#section-back9" class="masthead__section-link" onclick="scrollToSection('section-back9')">Back 9</a>
+        <a href="#section-caddies" class="masthead__section-link" onclick="scrollToSection('section-caddies')">Caddie's Pick</a>
+        <a href="#section-propicks" class="masthead__section-link" onclick="scrollToSection('section-propicks')">Pro Picks</a>
+        <a href="#section-19th" class="masthead__section-link" onclick="scrollToSection('section-19th')">19th Hole</a>
+      </nav>
+    </div>
+    <div class="masthead__center">
+      <div class="masthead__flag" aria-hidden="true">
+        <svg width="32" height="36" viewBox="0 0 32 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="10" y1="4" x2="10" y2="34" stroke="#d4a828" stroke-width="1.5"/>
+          <path d="M10 4 L26 10 L10 16 Z" fill="#c0392b"/>
+          <ellipse cx="10" cy="34" rx="6" ry="2" fill="rgba(255,255,255,0.08)"/>
+        </svg>
+      </div>
+      <h1 class="masthead__title">THE MULLIGAN <em>REPORT</em></h1>
+      <p class="masthead__tagline">Your daily golf briefing &mdash; curated, never automated</p>
+    </div>
+    <div class="masthead__rule"></div>
+    <div class="masthead__date">
+      <span id="masthead-date">Loading...</span>
+      <span id="masthead-meta">Today's Round</span>
+    </div>
+  </section>
+
+  <!-- ====== LEADERBOARD CRAWL ====== -->
+  <div class="crawl">
+    <div class="crawl__bar">
+      <div class="crawl__label">Today's Card</div>
+      <div class="crawl__track">
+        <div class="crawl__scroll" id="crawl-scroll">
+          <!-- Populated by JS or hardcoded for current day -->
+          <div class="crawl__entry">
+            <span class="crawl__pos crawl__pos--red">1</span>
+            <span class="crawl__name">Schauffele</span>
+            <span class="crawl__score crawl__score--green">-14</span>
+            <span class="crawl__context">Leading at Valspar</span>
+          </div>
+          <span class="crawl__sep"></span>
+          <div class="crawl__entry">
+            <span class="crawl__pos crawl__pos--gold">T2</span>
+            <span class="crawl__name">Scheffler</span>
+            <span class="crawl__score crawl__score--green">-12</span>
+            <span class="crawl__context">Bogey-free Saturday</span>
+          </div>
+          <span class="crawl__sep"></span>
+          <div class="crawl__entry">
+            <span class="crawl__pos crawl__pos--green">3</span>
+            <span class="crawl__name">Rahm</span>
+            <span class="crawl__score crawl__score--green">-11</span>
+            <span class="crawl__context">3 birdies on the back</span>
+          </div>
+          <span class="crawl__sep"></span>
+          <div class="crawl__entry">
+            <span class="crawl__pos crawl__pos--gray">4</span>
+            <span class="crawl__name">Spieth</span>
+            <span class="crawl__score crawl__score--green">-9</span>
+            <span class="crawl__context">Charging on Sunday</span>
+          </div>
+          <span class="crawl__sep"></span>
+          <div class="crawl__entry">
+            <span class="crawl__pos crawl__pos--gray">5</span>
+            <span class="crawl__name">McIlroy</span>
+            <span class="crawl__score crawl__score--green">-8</span>
+            <span class="crawl__context">Eagle on 16</span>
+          </div>
+          <span class="crawl__sep"></span>
+          <!-- Duplicate set for seamless loop -->
+          <div class="crawl__entry">
+            <span class="crawl__pos crawl__pos--red">1</span>
+            <span class="crawl__name">Schauffele</span>
+            <span class="crawl__score crawl__score--green">-14</span>
+            <span class="crawl__context">Leading at Valspar</span>
+          </div>
+          <span class="crawl__sep"></span>
+          <div class="crawl__entry">
+            <span class="crawl__pos crawl__pos--gold">T2</span>
+            <span class="crawl__name">Scheffler</span>
+            <span class="crawl__score crawl__score--green">-12</span>
+            <span class="crawl__context">Bogey-free Saturday</span>
+          </div>
+          <span class="crawl__sep"></span>
+          <div class="crawl__entry">
+            <span class="crawl__pos crawl__pos--green">3</span>
+            <span class="crawl__name">Rahm</span>
+            <span class="crawl__score crawl__score--green">-11</span>
+            <span class="crawl__context">3 birdies on the back</span>
+          </div>
+          <span class="crawl__sep"></span>
+          <div class="crawl__entry">
+            <span class="crawl__pos crawl__pos--gray">4</span>
+            <span class="crawl__name">Spieth</span>
+            <span class="crawl__score crawl__score--green">-9</span>
+            <span class="crawl__context">Charging on Sunday</span>
+          </div>
+          <span class="crawl__sep"></span>
+          <div class="crawl__entry">
+            <span class="crawl__pos crawl__pos--gray">5</span>
+            <span class="crawl__name">McIlroy</span>
+            <span class="crawl__score crawl__score--green">-8</span>
+            <span class="crawl__context">Eagle on 16</span>
+          </div>
+          <span class="crawl__sep"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== OPT-IN BAR ====== -->
+  <div class="optin-bar">
+    <p class="optin-bar__text"><strong>Get inside the ropes.</strong> The best golf stories, delivered every morning before your tee time.</p>
+    <button class="btn btn--gold" onclick="openSubscribe()">Subscribe</button>
+  </div>
+
+  <!-- ====== MAIN CONTENT ====== -->
+  <div class="layout">
+    <main class="content page">
+
+    <!-- ====== FLOATING SIDEBAR TOC ====== -->
+    <aside class="sidebar sidebar--hidden" id="sidebar-toc" aria-label="Table of contents">
+      <nav class="sidebar__nav">
+        <h4 class="sidebar__heading">Today's Round</h4>
+        <a href="#section-front9" class="sidebar__link sidebar__link--active" data-section="section-front9">
+          <span class="sidebar__link-icon">&#127987;&#65039;</span> Front 9
+        </a>
+        <a href="#section-propicks" class="sidebar__link" data-section="section-propicks">
+          <span class="sidebar__link-icon">&#127942;</span> Pro Picks
+        </a>
+        <a href="#section-back9" class="sidebar__link" data-section="section-back9">
+          <span class="sidebar__link-icon">&#9971;</span> Back 9
+        </a>
+        <a href="#section-caddies" class="sidebar__link" data-section="section-caddies">
+          <span class="sidebar__link-icon">&#9654;</span> Caddie's Pick
+        </a>
+        <a href="#section-19th" class="sidebar__link" data-section="section-19th">
+          <span class="sidebar__link-icon">&#127866;</span> 19th Hole
+        </a>
+      </nav>
+      <div class="sidebar__divider"></div>
+      <button class="sidebar__cta" onclick="openSubscribe()">Subscribe</button>
+      <p class="sidebar__fine">Free &middot; Daily &middot; No spam</p>
+    </aside>
+
+    <!-- Front 9 -->
+    <div class="round-marker" id="section-front9">
+      <span class="round-marker__line"></span>
+      <span class="round-marker__label"><span aria-hidden="true">&#127987;&#65039;</span> Front 9 &mdash; Morning Stories</span>
+      <span class="round-marker__sub">Holes 1-9 &middot; The day's big plays</span>
+      <span class="round-marker__line"></span>
+    </div>
+
+    <!-- Hero Story -->
+    <article class="hero">
+      <div class="hero__flag">Top Story</div>
+      <h2 class="hero__title"><a href="article/tiger-masters/">He's Back. Tiger Just Told Augusta to Set an Extra Place at the Table.</a></h2>
+      <p class="hero__excerpt">Fourteen months of silence. One Instagram post. And suddenly the entire golf world stopped breathing. Woods says he's playing the Masters. "I've still got a few shots left that nobody's seen yet."</p>
+      <div class="hero__source"><strong>Golf Digest</strong> &middot; 2 hours ago &middot; 3 min read</div>
+    </article>
+
+    <!-- Pro Tour Section -->
+    <div class="sec-head">
+      <svg class="sec-head__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+      <h3 class="sec-head__title">Pro Tour</h3>
+      <span class="sec-head__source">via Golf Digest, ESPN, PGA Tour</span>
+    </div>
+
+    <a href="article/scheffler-putting/" class="story story--hot">
+      <span class="story__pos story__pos--hot">T1</span>
+      <div class="story__body">
+        <span class="story__cat story__cat--red">Breaking</span>
+        <h4 class="story__headline">Scheffler Left $3.6 Million on the Putting Green. Literally.</h4>
+        <span class="story__meta"><strong>ESPN Golf</strong> &middot; 4h ago</span>
+      </div>
+    </a>
+
+    <a href="article/rahm-liv-exit/" class="story">
+      <span class="story__pos">T2</span>
+      <div class="story__body">
+        <span class="story__cat story__cat--green">LIV Golf</span>
+        <h4 class="story__headline">Rahm Might Be Done With LIV. The Exit Clause Just Got Very Interesting.</h4>
+        <span class="story__meta"><strong>Golf Channel</strong> &middot; 6h ago</span>
+      </div>
+    </a>
+
+    <a href="article/usga-rules/" class="story">
+      <span class="story__pos">T3</span>
+      <div class="story__body">
+        <span class="story__cat">Rules</span>
+        <h4 class="story__headline">The USGA Just Changed 3 Rules That Will Piss Off Every Weekend Golfer</h4>
+        <span class="story__meta"><strong>USGA.org</strong> &middot; 8h ago</span>
+      </div>
+    </a>
+
+    <a href="article/schauffele-65/" class="story">
+      <span class="story__pos">T4</span>
+      <div class="story__body">
+        <span class="story__cat story__cat--green">The Players</span>
+        <h4 class="story__headline">Schauffele's 65 Was the Best Round of Saturday. Nobody Talked About It.</h4>
+        <span class="story__meta"><strong>PGA Tour</strong> &middot; 5h ago</span>
+      </div>
+    </a>
+
+    <a href="article/mcilroy-back/" class="story">
+      <span class="story__pos">T5</span>
+      <div class="story__body">
+        <span class="story__cat story__cat--red">Injury</span>
+        <h4 class="story__headline">McIlroy Pulls Out With Back Issues. Masters Prep in Serious Jeopardy.</h4>
+        <span class="story__meta"><strong>Sky Sports</strong> &middot; 3h ago</span>
+      </div>
+    </a>
+
+    <!-- Pro Pick (Sponsor) -->
+    <div class="proshop" id="section-propicks">
+      <span class="proshop__badge">Pro Pick</span>
+      <p class="proshop__text">TaylorMade Qi35 &mdash; "Their best driver since the 2016 M2." Carbon face, moveable weights, 15% more accurate.</p>
+      <a href="article/qi35-review/" class="proshop__cta">Read Review &rarr;</a>
+    </div>
+
+    <!-- Swing Tips -->
+    <div class="sec-head">
+      <svg class="sec-head__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      <h3 class="sec-head__title">Swing Tips & Lessons</h3>
+      <span class="sec-head__source">via YouTube Golf, GolfWRX</span>
+    </div>
+
+    <a href="article/slice-drill/" class="story story--hot">
+      <span class="story__pos story__pos--hot">T1</span>
+      <div class="story__body">
+        <span class="story__cat story__cat--red">Trending</span>
+        <h4 class="story__headline">I Did This 3-Second Drill Before Every Drive for a Month. My Slice Is Gone.</h4>
+        <span class="story__meta"><strong>Rick Shiels</strong> &middot; YouTube &middot; 890K views</span>
+      </div>
+    </a>
+
+    <a href="article/grip-fundamentals/" class="story">
+      <span class="story__pos">T2</span>
+      <div class="story__body">
+        <span class="story__cat">Fundamentals</span>
+        <h4 class="story__headline">Your Grip Is Too Tight. That's Why You Can't Hit a Fairway.</h4>
+        <span class="story__meta"><strong>GolfWRX</strong> &middot; 5h ago</span>
+      </div>
+    </a>
+
+    <a href="article/gravity-drop/" class="story">
+      <span class="story__pos">T3</span>
+      <div class="story__body">
+        <span class="story__cat story__cat--gold">Viral</span>
+        <h4 class="story__headline">This Guy's "Gravity Drop" Swing Video Hit 4 Million Views. Here's Why.</h4>
+        <span class="story__meta"><strong>Danny Maude</strong> &middot; YouTube</span>
+      </div>
+    </a>
+
+    <!-- Back 9 -->
+    <div class="round-marker" id="section-back9">
+      <span class="round-marker__line"></span>
+      <span class="round-marker__label"><span aria-hidden="true">&#9971;</span> Back 9 &mdash; Afternoon Edition</span>
+      <span class="round-marker__sub">Holes 10-18 &middot; Gear, culture, lifestyle</span>
+      <span class="round-marker__line"></span>
+    </div>
+
+    <!-- Gear & Equipment -->
+    <div class="sec-head">
+      <svg class="sec-head__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+      <h3 class="sec-head__title">Gear & Equipment</h3>
+      <span class="sec-head__source">via MyGolfSpy, GolfWRX, Golf Digest</span>
+    </div>
+
+    <a href="article/putter-test/" class="story story--hot">
+      <span class="story__pos story__pos--hot">T1</span>
+      <div class="story__body">
+        <span class="story__cat story__cat--red">Lab Tested</span>
+        <h4 class="story__headline">We Tested 47 Putters. The Best One Costs $149.</h4>
+        <span class="story__meta"><strong>MyGolfSpy</strong> &middot; 2h ago</span>
+      </div>
+    </a>
+
+    <a href="article/ball-fitting/" class="story">
+      <span class="story__pos">T2</span>
+      <div class="story__body">
+        <span class="story__cat story__cat--green">Deep Dive</span>
+        <h4 class="story__headline">You're Playing the Wrong Ball. Here's How 15 Minutes of Fitting Drops 3 Strokes.</h4>
+        <span class="story__meta"><strong>Golf Digest</strong> &middot; 4h ago</span>
+      </div>
+    </a>
+
+    <a href="article/iron-covers/" class="story">
+      <span class="story__pos">T3</span>
+      <div class="story__body">
+        <span class="story__cat story__cat--gold">Opinion</span>
+        <h4 class="story__headline">Iron Covers: Practical Protection or Golf's Greatest Sin? We Settled It.</h4>
+        <span class="story__meta"><strong>GolfWRX Forums</strong> &middot; 6h ago</span>
+      </div>
+    </a>
+
+    <!-- Course & Culture -->
+    <div class="sec-head">
+      <svg class="sec-head__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+      <h3 class="sec-head__title">Course & Culture</h3>
+      <span class="sec-head__source">via Golf Monthly, Links Magazine</span>
+    </div>
+
+    <a href="article/bandon-trip/" class="story">
+      <span class="story__pos">T1</span>
+      <div class="story__body">
+        <span class="story__cat">Travel</span>
+        <h4 class="story__headline">A First-Timer's Guide to Bandon Dunes. What Nobody Tells You Before You Go.</h4>
+        <span class="story__meta"><strong>Links Magazine</strong> &middot; 3h ago</span>
+      </div>
+    </a>
+
+    <a href="article/muni-golf/" class="story">
+      <span class="story__pos">T2</span>
+      <div class="story__body">
+        <span class="story__cat story__cat--green">Community</span>
+        <h4 class="story__headline">Municipal Golf Isn't Dying. It's Being Reborn by a Generation That Can't Afford Country Clubs.</h4>
+        <span class="story__meta"><strong>Golf Monthly</strong> &middot; 5h ago</span>
+      </div>
+    </a>
+
+    <a href="article/caddie-stories/" class="story">
+      <span class="story__pos">T3</span>
+      <div class="story__body">
+        <span class="story__cat story__cat--gold">Lifestyle</span>
+        <h4 class="story__headline">Confessions of a Loop Caddie: 12 Years, 4,000 Rounds, One Unforgettable Tip.</h4>
+        <span class="story__meta"><strong>The Fried Egg</strong> &middot; Yesterday</span>
+      </div>
+    </a>
+
+    <!-- Caddie's Pick -->
+    <section class="caddie" id="section-caddies">
+      <div class="caddie__header">
+        <div class="caddie__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0f2b1f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        <div>
+          <h3 class="caddie__title">Caddie's Pick</h3>
+        </div>
+        <span class="caddie__sub">Video of the Day &middot; Curated daily</span>
+      </div>
+      <div class="caddie__thumb">
+        <div class="caddie__thumb-bg"></div>
+        <div class="caddie__overlay"></div>
+        <div class="caddie__play"><div class="caddie__play-tri"></div></div>
+        <span class="caddie__badge">Caddie's Pick</span>
+        <span class="caddie__views">&#9654; 1.2M views</span>
+        <span class="caddie__dur">18:42</span>
+        <div class="caddie__thumb-title">$50 Garage Sale Clubs vs $5,000 Setup &mdash; Full 18 Holes</div>
+      </div>
+      <div class="caddie__info">
+        <h4 class="caddie__headline">$50 Garage Sale Clubs vs $5,000 Setup: Who Wins Over 18 Holes?</h4>
+        <p class="caddie__meta"><strong>Good Good</strong> &middot; YouTube &middot; 1.2M views &middot; 3 days ago</p>
+        <blockquote class="caddie__quote">"The $50 putter outperformed the $400 one from 10 feet. Equipment matters less than you think."</blockquote>
+      </div>
+    </section>
+
+    <!-- Mulligan of the Week -->
+    <section class="mulligan">
+      <div class="mulligan__label">&#8635; Mulligan of the Week</div>
+      <div class="mulligan__card">
+        <h4 class="mulligan__title">Viktor Hovland's Tee Shot at 17. Just... Watch It Again.</h4>
+        <p class="mulligan__text">The ball hung over the water for what felt like three full seasons of television. Then gravity won. Hovland dropped his club. The crowd groaned. The commentators went silent. Golf is cruel.</p>
+        <span class="mulligan__meta"><strong>Golf Channel</strong> &middot; TPC Sawgrass &middot; Saturday R3</span>
+      </div>
+    </section>
+
+    <!-- 19th Hole -->
+    <section class="nineteenth" id="section-19th">
+      <div class="nineteenth__label">&#127866; The 19th Hole &mdash; Hot Takes</div>
+
+      <div class="hot-take">
+        <span class="hot-take__topic">Equipment</span>
+        <p class="hot-take__text"><strong>The $600 driver isn't making you better.</strong> The 2024 data is in: average handicap hasn't moved in 15 years despite a billion dollars in "game improvement" tech. Maybe the game improves when you do.</p>
+        <div class="hot-take__footer">
+          <span class="hot-take__attr">TMR Editorial</span>
+        </div>
+      </div>
+
+      <div class="hot-take">
+        <span class="hot-take__topic">Tour Drama</span>
+        <p class="hot-take__text"><strong>LIV golfers should get a Masters invite.</strong> Punishing players for choosing a different employer is petty. Let the best play. Let the fans decide.</p>
+        <div class="hot-take__footer">
+          <span class="hot-take__attr">TMR Editorial</span>
+        </div>
+      </div>
+
+      <div class="hot-take">
+        <span class="hot-take__topic">Pace of Play</span>
+        <p class="hot-take__text"><strong>If your round takes 5 hours, you're the problem.</strong> Not the course. Not the starter. Not the group ahead. Ready golf. Learn it. Live it.</p>
+        <div class="hot-take__footer">
+          <span class="hot-take__attr">TMR Editorial</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trending Tags -->
+    <section class="practice-green">
+      <h4 class="practice-green__title">Trending on the Practice Green</h4>
+      <div class="practice-green__tags">
+        <a href="archive.html?tag=masters" class="practice-green__tag">Masters 2026</a>
+        <a href="archive.html?tag=tiger" class="practice-green__tag">Tiger Watch</a>
+        <a href="archive.html?tag=equipment" class="practice-green__tag">Best Drivers 2026</a>
+        <a href="archive.html?tag=lpga" class="practice-green__tag">LPGA Rising Stars</a>
+        <a href="archive.html?tag=rules" class="practice-green__tag">Rules Changes</a>
+        <a href="archive.html?tag=travel" class="practice-green__tag">Bucket List Courses</a>
+        <a href="archive.html?tag=tips" class="practice-green__tag">Fix Your Slice</a>
+        <a href="archive.html?tag=liv" class="practice-green__tag">LIV vs PGA</a>
+      </div>
+    </section>
+
+  </main>
+  </div><!-- /.layout -->
+
+  <!-- ====== SITE FOOTER ====== -->
+  <footer class="site-footer">
+    <h2 class="site-footer__title">THE MULLIGAN <em style="color:var(--gold-light);font-weight:700;">REPORT</em></h2>
+    <p class="site-footer__tagline">Your daily golf briefing, delivered before your tee time.</p>
+    <form class="site-footer__form js-subscribe-form" onsubmit="handleSubscribe(event)">
+      <input type="email" class="site-footer__input" placeholder="your@email.com" required aria-label="Email address">
+      <button type="submit" class="site-footer__submit">Subscribe</button>
+    </form>
+    <nav class="site-footer__links" aria-label="Footer navigation">
+      <a href="archive.html" class="site-footer__link">Archive</a>
+      <a href="about.html" class="site-footer__link">About</a>
+      <a href="#" class="site-footer__link">Advertise</a>
+      <a href="#" class="site-footer__link">Privacy</a>
+    </nav>
+    <p class="site-footer__copy">&copy; 2026 The Mulligan Report. All rights reserved.</p>
+  </footer>
+
+  <!-- ====== SUBSCRIBE MODAL ====== -->
+  <div class="subscribe-modal" id="subscribe-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="subscribe-modal__card">
+      <button class="subscribe-modal__close" onclick="closeSubscribe()" aria-label="Close">&times;</button>
+      <h2 class="subscribe-modal__title" id="modal-title">Get Inside the Ropes</h2>
+      <p class="subscribe-modal__desc">The best golf stories + a daily cartoon, delivered every morning before your tee time.</p>
+      <form class="js-subscribe-form" onsubmit="handleSubscribe(event)">
+        <input type="text" class="subscribe-modal__input" placeholder="Your first name" aria-label="First name">
+        <input type="email" class="subscribe-modal__input" placeholder="your@email.com" required aria-label="Email address">
+        <button type="submit" class="subscribe-modal__btn">Get Inside the Ropes</button>
+      </form>
+      <p class="subscribe-modal__fine">Free &middot; Daily &middot; No spam &middot; Unsubscribe anytime</p>
+    </div>
+  </div>
+
+  <script src="js/site.js"></script>
+  <script>
+    // Set today's date in masthead
+    const now = new Date();
+    const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('masthead-date').textContent = now.toLocaleDateString('en-US', opts);
+
+    // Sidebar: show on scroll + scroll-spy active section
+    (function() {
+      var sidebar = document.getElementById('sidebar-toc');
+      var links = document.querySelectorAll('.sidebar__link[data-section]');
+      var sections = [];
+
+      // Build section list from sidebar links
+      links.forEach(function(link) {
+        var id = link.getAttribute('data-section');
+        var el = document.getElementById(id);
+        if (el) sections.push({ id: id, el: el, link: link });
+
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      // Sort by actual DOM position (offsetTop) so scroll-spy
+      // always highlights correctly regardless of sidebar link order
+      sections.sort(function(a, b) {
+        return a.el.offsetTop - b.el.offsetTop;
+      });
+
+      function onScroll() {
+        var scrollY = window.scrollY;
+
+        // Show sidebar after scrolling 200px (past the masthead area)
+        if (scrollY > 200) {
+          sidebar.classList.remove('sidebar--hidden');
+        } else {
+          sidebar.classList.add('sidebar--hidden');
+        }
+
+        // Scroll-spy: find the last section whose top we've scrolled past
+        var current = sections[0];
+        var offsetY = scrollY + 150;
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].el.offsetTop <= offsetY) {
+            current = sections[i];
+          }
+        }
+        links.forEach(function(l) { l.classList.remove('sidebar__link--active'); });
+        if (current) current.link.classList.add('sidebar__link--active');
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+</body>
+</html>
