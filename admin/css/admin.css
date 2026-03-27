@@ -1133,7 +1133,8 @@ button { cursor: pointer; }
 .create-editor__quill {
   position: relative;
 }
-.create-editor__quill .ql-toolbar {
+.create-editor__quill .ql-toolbar,
+.create-editor__quill .ql-toolbar.ql-snow {
   border: none;
   border-bottom: 1px solid var(--admin-border-light);
   padding: 8px 0;
@@ -1157,7 +1158,8 @@ button { cursor: pointer; }
 .create-editor__quill .ql-toolbar button.ql-active .ql-fill {
   fill: var(--admin-augusta);
 }
-.create-editor__quill .ql-container {
+.create-editor__quill .ql-container,
+.create-editor__quill .ql-container.ql-snow {
   border: none;
   font-family: var(--font-sans);
   font-size: 15px;
