@@ -94,31 +94,93 @@ const TMR_GATE = {
   }
 };
 
-// --- Subscribe Form Handler (placeholder for Resend integration) ---
+// --- Resend API config ---
+var TMR_API = 'https://tmr-api.themulliganreport.workers.dev';
+
+// --- Subscribe Form Handler (Resend integration) ---
 function handleSubscribe(e) {
   e.preventDefault();
-  const form = e.target;
-  const email = form.querySelector('input[type="email"]').value;
-  const name = form.querySelector('input[type="text"]')?.value || '';
+  var form = e.target;
+  var emailInput = form.querySelector('input[type="email"]');
+  var nameInput = form.querySelector('input[type="text"]');
+  var email = emailInput ? emailInput.value.trim() : '';
+  var firstName = nameInput ? nameInput.value.trim() : '';
 
   if (!email) return;
 
-  // TODO: Connect to Resend API
-  // For now, show success state
-  const btn = form.querySelector('button[type="submit"], .subscribe-modal__btn, .site-footer__submit, .content-gate__btn');
+  // Detect source from form location
+  var source = 'website';
+  if (form.closest('.subscribe-modal')) source = 'modal';
+  else if (form.closest('.site-footer')) source = 'footer';
+  else if (form.closest('.content-gate')) source = 'content-gate';
+  else if (form.closest('.optin-bar')) source = 'optin-bar';
+  else if (form.closest('.article__subscribe')) source = 'inline-article';
+
+  // Add page context
+  var page = window.location.pathname.replace(/\/$/, '') || 'home';
+  var fullSource = source + ':' + page;
+
+  var btn = form.querySelector('button[type="submit"]');
+  var originalText = btn ? btn.textContent : '';
   if (btn) {
-    const originalText = btn.textContent;
-    btn.textContent = 'You\'re In!';
-    btn.style.background = 'var(--fairway)';
-    setTimeout(function() {
-      btn.textContent = originalText;
-      btn.style.background = '';
-      closeSubscribe();
-    }, 2000);
+    btn.textContent = 'Subscribing...';
+    btn.disabled = true;
   }
 
-  // Unlock gated content
-  TMR_GATE.unlock();
+  fetch(TMR_API + '/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: email,
+      first_name: firstName,
+      source: fullSource
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.success) {
+      if (btn) {
+        btn.textContent = "You're In!";
+        btn.style.background = 'var(--fairway)';
+      }
+      // Clear form
+      if (emailInput) emailInput.value = '';
+      if (nameInput) nameInput.value = '';
+      // Mark as subscribed in localStorage
+      try { localStorage.setItem('tmr_subscribed', 'true'); } catch (e) {}
+      // Unlock gated content
+      TMR_GATE.unlock();
+      setTimeout(function() {
+        if (btn) {
+          btn.textContent = originalText;
+          btn.style.background = '';
+          btn.disabled = false;
+        }
+        closeSubscribe();
+      }, 2000);
+    } else {
+      if (btn) {
+        btn.textContent = data.error || 'Try again';
+        btn.style.background = '#c0392b';
+        setTimeout(function() {
+          btn.textContent = originalText;
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 2500);
+      }
+    }
+  })
+  .catch(function() {
+    if (btn) {
+      btn.textContent = 'Connection error';
+      btn.style.background = '#c0392b';
+      setTimeout(function() {
+        btn.textContent = originalText;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 2500);
+    }
+  });
 }
 
 // Bind all subscribe forms
